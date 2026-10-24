@@ -7,6 +7,7 @@ const ROUTES = [
   ["signals", "Signals", "⚡", () => import("./views/signals.js")],
   ["incidents", "Incidents", "▲", () => import("./views/incidents.js")],
   ["dataset", "Dataset", "▦", () => import("./views/dataset.js")],
+  ["trace", "Traceability", "⛓", () => import("./views/trace.js")],
   ["governance", "Audit & learning", "✓", () => import("./views/governance.js")],
 ];
 const app = document.getElementById("app");

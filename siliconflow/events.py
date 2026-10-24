@@ -11,7 +11,7 @@ import uuid
 from datetime import date, datetime
 from typing import Annotated, Literal, Union
 
-from pydantic import Field, field_validator
+from pydantic import Field, field_validator, model_validator
 
 from .domain import (
     CapacityBucket, ComplianceRuleSet, License, LotStatus, Model, PlanInput, Provenance, SupplyCommitment,
@@ -28,6 +28,13 @@ class EventBase(Model):
     document_id: str | None = None
     note: str | None = None
     force: bool = False  # human override of precedence (resolution flow only)
+    supersedes: str | None = None  # id of an earlier event this one corrects; `note` must then say why
+
+    @model_validator(mode="after")
+    def _correction_needs_reason(self):
+        if self.supersedes and not (self.note or "").strip():
+            raise ValueError("an event that supersedes another must explain why in `note`")
+        return self
 
     @field_validator("observed_at")
     @classmethod

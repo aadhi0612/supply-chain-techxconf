@@ -1,6 +1,12 @@
 # Proposed: ledger anchoring and traceability layer
 
-**Status: design only. Nothing in this document is implemented.**
+**Status: phase 1 is built; the rest is design.**
+
+Built: `store/merkle.py` (tree, paths), `store/ledger.py` (`LedgerAdapter` interface and `LocalLedger`, a separate SQLite file with its own hash chain and clock), `services/traceability.py` (anchor, verify, proof, per-record history, demo tamper lab), `supersedes` on events, endpoints `POST /v1/audit/anchor`, `GET /v1/audit/anchors`, `GET /v1/audit/proof/{seq}`, `GET /v1/trace[/{kind}/{id}]`, and the console's Traceability tab. The static Experience tab carries a browser-only simulation of the same flow.
+
+Not built: a real shared-ledger adapter (Fabric, Cosmos-based chain, public-chain anchor), supplier-signed confirmations, signed actor identities, lot genealogy in the engine.
+
+How phase 1 behaves: verification recomputes each audit row's hash from its content, rebuilds the Merkle root, and compares it with the root fetched from the ledger, never with stored copies. So an edit breaks the chain at that entry, and an insider who recomputes every later hash still fails against the ledger. A ledger outage never blocks writes; verification reports the entries as unanchored since seq N.
 
 ## Why
 

@@ -87,7 +87,10 @@ def _hash_key(k: str) -> str:
 class Platform:
     def __init__(self, db_url: str = "sqlite://", policy: ExecutionPolicy | None = None, adapter: Adapter | None = None,
                  extractors: list | None = None, sleep=time.sleep, workers: int = 2,
-                 analysis_profiles: list[str] | None = None, analysis_binding: bool = True):
+                 analysis_profiles: list[str] | None = None, analysis_binding: bool = True, ledger=None):
+        from ..store.ledger import LocalLedger
+        self.ledger = ledger or LocalLedger(":memory:")  # separate store from the platform DB (see store/ledger.py)
+        self._tamper_backup: dict = {}  # demo tamper lab only
         self._in_memory = db_url in ("sqlite://", "sqlite:///:memory:")
         self.engine = make_engine(db_url)
         self.Session = session_factory(self.engine)
@@ -257,6 +260,12 @@ class Platform:
             for ev in events:
                 if any(r == ev.id for r in s.execute(select(EventRecord.id).where(EventRecord.id == ev.id)).scalars()):
                     raise Conflicting(f"event {ev.id} already ingested")
+                if ev.supersedes and ev.supersedes != ev.id and not (
+                        s.execute(select(EventRecord.id).where(EventRecord.tenant_id == tenant, EventRecord.id == ev.supersedes)).first()
+                        or any(prev.id == ev.supersedes for prev, _ in applied_events)):
+                    raise Invalid(f"event {ev.id} supersedes unknown event {ev.supersedes}")
+                if ev.supersedes == ev.id:
+                    raise Invalid("an event cannot supersede itself")
                 try:
                     plan, res = apply_event(plan, ev)
                 except EventError as e:
@@ -279,7 +288,7 @@ class Platform:
                 s.add(EventRecord(id=ev.id, tenant_id=tenant, event=ev.model_dump(mode="json"), snapshot_before=before_v, snapshot_after=after_v,
                                   result=res.model_dump(mode="json"), applied_by=p.user_id))
                 audit_log.append(s, tenant, p.user_id, "event.apply", "event", ev.id,
-                                 {"type": ev.type, "source": ev.source, "changes": [c.model_dump(mode="json") for c in res.changes][:50],
+                                 {"type": ev.type, "source": ev.source, "supersedes": ev.supersedes, "note": ev.note, "changes": [c.model_dump(mode="json") for c in res.changes][:50],
                                   "conflicts": len(res.conflicts), "snapshot": after_v})
                 for c in res.conflicts:
                     cid = _id("cfl")
@@ -892,8 +901,29 @@ class Platform:
                      "data": r.data, "hash": r.hash} for r in s.execute(q).scalars()]
 
     def verify_audit(self, tenant: str) -> dict:
-        with self.tx() as s:
-            return audit_log.verify_chain(s, tenant)
+        from . import traceability
+        return traceability.verify(self, tenant)
+
+    # ------------------------------------------------------------------ traceability (see services/traceability.py)
+    def anchor_audit(self, p: Principal) -> dict:
+        from . import traceability
+        return traceability.anchor(self, p)
+
+    def list_anchors(self, tenant: str) -> list[dict]:
+        from . import traceability
+        return traceability.list_anchors(self, tenant)
+
+    def audit_proof(self, tenant: str, seq: int) -> dict:
+        from . import traceability
+        return traceability.proof(self, tenant, seq)
+
+    def trace(self, tenant: str, kind: str, entity_id: str) -> dict:
+        from . import traceability
+        return traceability.trace(self, tenant, kind, entity_id)
+
+    def trace_entities(self, tenant: str) -> dict:
+        from . import traceability
+        return traceability.entities(self, tenant)
 
 
 class _EmptyBinding:

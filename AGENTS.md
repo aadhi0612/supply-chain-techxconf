@@ -28,5 +28,6 @@ Live static demo (landing page and Experience tab): https://main.d2skuf17sh79ex.
 - Implemented: the engine, verifier, compliance gate, approvals, actions, the audit hash chain, the API and the console.
 - Illustrative: all data is synthetic. There are no customers.
 - The Experience tab replays real `siliconflow demo` output in the browser. Its shipment timing and serial numbers are invented, and its ledger is a browser-side simulation that resets on reload.
-- Design only, not built: serial-level genealogy and Merkle anchoring to a shared ledger (`docs/BLOCKCHAIN_LAYER.md`).
+- Implemented (phase 1 of `docs/BLOCKCHAIN_LAYER.md`): Merkle anchoring of the audit chain to a separate local ledger (`store/ledger.py`, `store/merkle.py`), inclusion proofs recomputed from row content, `supersedes` corrections, per-record history (`GET /v1/trace/{kind}/{id}`), and a demo-only tamper lab. The ledger is a separate SQLite file, not a shared or distributed ledger.
+- Design only, not built: serial-level genealogy in the engine, a real consortium or public-chain adapter, and supplier-signed confirmations.
 - The deployed Amplify site is static, so the console cannot sign in there.
