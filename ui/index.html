@@ -106,11 +106,57 @@
     .thead { grid-template-columns: 1fr; gap: 18px; }
     .row { grid-template-columns: 1fr; gap: 14px; padding: 32px 0; }
   }
+
+  /* ---------- nav + hero ---------- */
+  .logo { display: inline-flex; align-items: center; gap: 12px; color: var(--cream); text-decoration: none; }
+  .logo svg { width: 38px; height: 38px; flex: none; }
+  .logo b { font: 800 26px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; }
+  .topnav { position: fixed; top: 0; left: 0; right: 0; z-index: 10; display: flex; align-items: center; gap: 28px; padding: 14px 40px;
+    background: rgba(10,11,12,.55); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,.08); }
+  .topnav .links { display: flex; gap: 26px; margin-left: auto; }
+  .topnav .links a { color: var(--body); text-decoration: none; font: 700 12px/1 var(--ui); letter-spacing: .12em; text-transform: uppercase; }
+  .topnav .links a:hover { color: #fff; }
+  .btn { display: inline-block; text-decoration: none; font: 700 13px/1 var(--ui); letter-spacing: .1em; text-transform: uppercase; padding: 14px 24px; border-radius: 999px; border: 1.5px solid var(--cream); color: var(--cream); }
+  .btn.solid { background: #c8372d; border-color: #c8372d; color: #fff; }
+  .btn:hover { filter: brightness(1.12); }
+  .topnav .btn { padding: 11px 20px; font-size: 12px; }
+  .hero { position: absolute; top: 0; left: 0; right: 0; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 24px; }
+  .hero .mark { width: clamp(72px, 9vw, 120px); height: auto; margin-bottom: 22px; }
+  .hero h1 { margin: 0; font: 800 clamp(48px, 11vw, 168px) / .95 var(--display); letter-spacing: .03em; text-transform: uppercase; color: var(--cream); text-shadow: 0 12px 40px rgba(0,0,0,.55); }
+  .hero p { margin: 22px 0 0; max-width: 640px; font: 400 clamp(15px, 1.6vw, 20px) / 1.45 var(--ui); color: var(--body); }
+  .hero .cta { display: flex; gap: 14px; margin-top: 34px; flex-wrap: wrap; justify-content: center; }
+  .hero .scroll { position: absolute; bottom: 28px; font: 700 11px/1 var(--ui); letter-spacing: .3em; text-transform: uppercase; color: var(--body); }
+  @media (max-width: 760px) { .topnav { padding: 12px 16px; gap: 12px; } .topnav .links a { display: none; } .logo b { font-size: 20px; } .logo svg { width: 30px; height: 30px; } }
+  html { scroll-behavior: smooth; } .trust .block, .trust .band { scroll-margin-top: 90px; }
+
+  /* ---------- about / what / parameters ---------- */
+  .lead { max-width: 760px; margin: 36px 0 0; font-size: clamp(18px, 1.9vw, 24px); line-height: 1.45; }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 40px; border-top: 1px solid rgba(20,21,22,.16); }
+  .pillars > div { padding: 28px 28px 28px 0; border-bottom: 1px solid rgba(20,21,22,.16); }
+  .pillars > div + div { padding-left: 28px; border-left: 1px solid rgba(20,21,22,.16); }
+  .pillars h3 { margin: 0 0 10px; font: 700 15px/1.2 var(--ui); text-transform: uppercase; letter-spacing: .05em; }
+  .pillars p { margin: 0; font-size: 14px; line-height: 1.55; color: rgba(20,21,22,.75); }
+  .params { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 36px; background: rgba(20,21,22,.16); border: 1px solid rgba(20,21,22,.16); }
+  .params > div { background: var(--cloud); padding: 22px 20px 24px; }
+  .params h4 { margin: 0 0 12px; font: 700 12px/1 var(--ui); letter-spacing: .14em; text-transform: uppercase; color: #8f8b8a; }
+  .params ul { margin: 0; padding: 0; list-style: none; font-size: 14px; line-height: 1.75; }
+  .params li::before { content: "— "; color: #c8372d; }
+  .band { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; padding: 44px 48px; background: #141516; color: var(--cream); border-radius: 4px; }
+  .band h2 { margin: 0; font: 800 clamp(26px, 3.2vw, 42px) / 1.05 var(--display); text-transform: uppercase; }
+  .band p { margin: 10px 0 0; max-width: 560px; font-size: 14px; line-height: 1.5; color: rgba(249,249,249,.75); }
+  .trust-in > .block + .band, .trust-in > .band + .block { margin-top: 120px; }
+  @media (max-width: 900px) { .pillars, .params { grid-template-columns: 1fr 1fr; } .pillars > div, .pillars > div + div { padding: 22px 16px 22px 0; border-left: 0; } }
+  @media (max-width: 560px) { .pillars, .params { grid-template-columns: 1fr; } .band { padding: 30px 24px; } }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
 </head>
 <body>
 
+<header class="topnav">
+  <a class="logo" href="#top" aria-label="SiliconFlow home"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="9" y="9" width="30" height="30" rx="6" fill="#c8372d"/><g stroke="#F7F5EF" stroke-width="2.4" stroke-linecap="round"><path d="M17 4v5M24 4v5M31 4v5M17 39v5M24 39v5M31 39v5M4 17h5M4 24h5M4 31h5M39 17h5M39 24h5M39 31h5"/></g><path d="M32 18c-3-3-14-3-14 3 0 5 12 3 12 8 0 6-11 6-14 2" stroke="#F7F5EF" stroke-width="3" stroke-linecap="round" fill="none"/></svg><b>SiliconFlow</b></a>
+  <nav class="links" aria-label="Sections"><a href="#about">About</a><a href="#what">What we do</a><a href="#parameters">Parameters</a><a href="#incident">Incident</a></nav>
+  <a class="btn solid" href="experience/">Try demo</a>
+</header>
 <main class="track" id="track">
   <div class="scene">
     <video id="clip" muted playsinline preload="auto" disablepictureinpicture
@@ -118,6 +164,14 @@
   </div>
 
   <div class="content" id="content">
+    <section class="hero" id="top" aria-label="SiliconFlow">
+      <svg class="mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="9" y="9" width="30" height="30" rx="6" fill="#c8372d"/><g stroke="#F7F5EF" stroke-width="2.4" stroke-linecap="round"><path d="M17 4v5M24 4v5M31 4v5M17 39v5M24 39v5M31 39v5M4 17h5M4 24h5M4 31h5M39 17h5M39 24h5M39 31h5"/></g><path d="M32 18c-3-3-14-3-14 3 0 5 12 3 12 8 0 6-11 6-14 2" stroke="#F7F5EF" stroke-width="3" stroke-linecap="round" fill="none"/></svg>
+      <h1>SiliconFlow</h1>
+      <p>Know what will ship. Fix what won't. A constraint-aware control plane for semiconductor supply allocation and recovery.</p>
+      <div class="cta"><a class="btn solid" href="experience/">Try the demo</a><a class="btn" href="#about">What is SiliconFlow</a></div>
+      <span class="scroll">Scroll</span>
+    </section>
+
     <header class="intro">
       <p class="eyebrow">Why SiliconFlow</p>
       <h1 class="headline"><span>Know what</span><span>will ship.</span><span>Fix what</span><span>won't.</span></h1>
@@ -155,7 +209,58 @@
 
 <section class="trust" id="trust">
   <div class="trust-in">
-    <div class="block">
+    <div class="block" id="about">
+      <div class="thead">
+        <h2><span>About</span><span>SiliconFlow</span></h2>
+        <p>A reference implementation, built for TechXConf, of what supply planning for advanced packaging could look like when every fact has a source and every decision has an owner.</p>
+      </div>
+      <p class="lead">Chip supply chains fail in the gaps between systems: a supplier email in one inbox, a capacity change in a portal, an export rule in a spreadsheet. SiliconFlow joins them into one verified picture, shows what a disruption really costs, and carries the approved fix all the way back into the plan.</p>
+      <div class="pillars">
+        <div><h3>Deterministic first</h3><p>Allocation is solved and independently re-verified. An LLM may only propose events from messy notices; it never decides anything physical, legal or irreversible.</p></div>
+        <div><h3>Humans decide</h3><p>Four-eyes approvals by role, policy-driven. The proposer cannot approve, and execution refuses a plan that has gone stale.</p></div>
+        <div><h3>Evidence everywhere</h3><p>Every fact carries source, time and confidence. Every step lands in a hash-chained audit log you can verify.</p></div>
+      </div>
+      <p class="caption">No customers yet: this is a working prototype on illustrative data, with honest limits documented in the architecture notes.</p>
+    </div>
+
+    <div class="block" id="what">
+      <div class="thead">
+        <h2><span>What</span><span>we do</span></h2>
+        <p>Four jobs, one loop, from the first supplier signal to the supplier's confirmation.</p>
+      </div>
+      <div class="row"><div class="who"><b>1 · Track</b><i>Trackability</i></div>
+        <p class="what" style="margin:0">See every logic-die, HBM, substrate and module lot as a shipment between sites, and what that means for each customer order, week by week.</p></div>
+      <div class="row"><div class="who"><b>2 · Trace</b><i>Traceability</i></div>
+        <p class="what" style="margin:0">Follow a module back to the lots and sites that made it, or a lot forward to every module and customer it reached. <i>Design stage: the demo shows the idea, the engine does not store serial genealogy yet.</i></p></div>
+      <div class="row"><div class="who"><b>3 · Recover</b><i>Impact and options</i></div>
+        <p class="what" style="margin:0">Find the binding constraint, compare verified recovery options with best, base and worst outcomes, and get approvals from the right roles.</p></div>
+      <div class="row"><div class="who"><b>4 · Prove</b><i>Audit</i></div>
+        <p class="what" style="margin:0">Keep a tamper-evident record of who proposed, approved and executed what, and which facts it rested on.</p></div>
+    </div>
+
+    <div class="block" id="parameters">
+      <div class="thead">
+        <h2><span>The</span><span>parameters</span><span>we plan with</span></h2>
+        <p>What the engine models today, taken from the domain model and the bundled dataset.</p>
+      </div>
+      <div class="params">
+        <div><h4>Supply</h4><ul><li>Logic die, HBM, substrate</li><li>Supplier commitments by week</li><li>Inventory lots and status (hold)</li><li>Alternate parts per BOM line</li></ul></div>
+        <div><h4>Capacity</h4><ul><li>Packaging and test resources</li><li>Capacity by site and week</li><li>Routes with lead times</li><li>Yield range: low / base / high</li></ul></div>
+        <div><h4>Demand</h4><ul><li>Orders, priority, protected flag</li><li>Committed and latest weeks</li><li>Price and late penalty per week</li><li>Partial shipment rules</li></ul></div>
+        <div><h4>Compliance</h4><ul><li>Versioned export-rule sets</li><li>Allowed / licence / prohibited / review</li><li>Licences, quantity and validity</li><li>End-user and denied-party checks</li></ul></div>
+        <div><h4>Logistics</h4><ul><li>Transit weeks per destination</li><li>Delays as events</li><li>26-week default horizon</li><li>Plan-relative week windows</li></ul></div>
+        <div><h4>Recovery levers</h4><ul><li>Expedite supply</li><li>Spot capacity</li><li>Accelerate qualification</li><li>Extend delivery window</li></ul></div>
+        <div><h4>Governance</h4><ul><li>Roles: planner, procurement, finance, sales, compliance, quality</li><li>Modes: shadow / draft / execute</li><li>Idempotent actions</li></ul></div>
+        <div><h4>Evidence</h4><ul><li>Source and confidence per fact</li><li>Conflict detection by authority</li><li>Hash-chained audit log</li><li>Outcome and calibration metrics</li></ul></div>
+      </div>
+    </div>
+
+    <div class="band" id="demo">
+      <div><h2>Try it without installing anything</h2><p>Run the reference incident yourself: receive the supplier notice, confirm the facts, pick a recovery option, collect five approvals, and verify the audit chain. It runs entirely in your browser on illustrative data.</p></div>
+      <a class="btn solid" href="experience/">Try demo</a>
+    </div>
+
+    <div class="block" id="people">
       <div class="thead">
         <h2><span>Built for</span><span>the teams that</span><span>carry the plan</span></h2>
         <p>Three people touch every shortage: the planner, the buyer and trade compliance. SiliconFlow gives each the same verified picture and keeps every decision with its owner.</p>
@@ -169,7 +274,7 @@
       <p class="caption">Illustrative personas drawn from discovery questions, not customer endorsements.</p>
     </div>
 
-    <div class="block">
+    <div class="block" id="incident">
       <div class="thead">
         <h2><span>One incident,</span><span>from signal to</span><span>closed loop</span></h2>
         <p>OSAT-A cuts reserved packaging 25% for weeks 4 to 9 and a substrate lot goes on quality hold. This is what happens next.</p>
@@ -177,9 +282,9 @@
       <div class="row"><div class="who"><b>Signal</b><i>Notice or structured event</i></div>
         <p class="what" style="margin:0">The supplier notice becomes proposals with verbatim evidence. A planner confirms; a less authoritative source can worsen the plan at once but cannot improve it without confirmation.</p></div>
       <div class="row"><div class="who"><b>Impact</b><i>If nobody acts</i></div>
-        <p class="what" style="margin:0"><b>1,278 on-time units lost</b> across four orders, about <b>$38.8M</b> of exposure. The binding pools are packaging at OSAT-A and OSAT-B, found by relaxing each tight pool and re-solving.</p></div>
+        <p class="what" style="margin:0"><b>1,276 on-time units lost</b> across four orders, about <b>$38.9M</b> of exposure. The binding pools are packaging at OSAT-A and OSAT-B, found by relaxing each tight pool and re-solving.</p></div>
       <div class="row"><div class="who"><b>Options</b><i>Solver-backed, independently verified</i></div>
-        <p class="what" style="margin:0">Re-allocate only (8,895 on time), balanced recovery (about <b>9,410</b> on time for roughly <b>$0.9M</b> with spot packaging and an alternate substrate), maximum fulfilment, or a plan that survives the worst case.</p></div>
+        <p class="what" style="margin:0">Re-allocate only (8,900 on time), balanced recovery (about <b>9,432</b> on time for roughly <b>$0.9M</b> with spot packaging and an alternate substrate), maximum fulfilment, or a plan that survives the worst case.</p></div>
       <div class="row"><div class="who"><b>Control</b><i>Four-eyes, policy-driven</i></div>
         <p class="what" style="margin:0">Compliance, finance, planner, procurement and sales approve; nobody approves twice. Execution re-verifies the plan against current data and refuses if it has gone stale.</p></div>
       <div class="row"><div class="who"><b>Loop</b><i>Confirm, decline, audit</i></div>

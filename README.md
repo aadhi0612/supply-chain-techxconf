@@ -35,10 +35,10 @@ OSAT-A cuts reserved packaging 25 % for weeks 4-9 and a substrate lot goes on qu
 
 | | |
 |---|---|
-| Pre-incident plan | 9,974 on time / 26 late, independently verified |
-| If nobody acts | 1,278 on-time units lost across 4 orders, ≈ $38.8 M exposure; protected order 1001 also slips |
+| Pre-incident plan | 9,975 on time / 25 late, independently verified |
+| If nobody acts | 1,276 on-time units lost across ORD-1002 and ORD-1003 (≈ $38.9 M exposure); protected order 1001 is unaffected |
 | Binding | packaging at OSAT-A and OSAT-B (probed by relaxing each tight pool and re-solving) |
-| Options | re-allocate only (8,895 on time) · **balanced** (≈ 9,410, spot packaging + expedited alt substrate, ≈ $0.9 M) · max-fulfilment · conservative (worst-case-safe) |
+| Options | re-allocate only (8,900 on time) · **balanced** (≈ 9,432, spot packaging + expedited alt substrate, ≈ $0.9 M) · max-fulfilment · conservative (worst-case-safe) |
 | Control | compliance, finance, planner, procurement, sales must each approve (four-eyes); execution re-verifies against current data |
 | Close the loop | supplier confirms → commitment/capacity fact → new snapshot; decline → automatic re-plan |
 
