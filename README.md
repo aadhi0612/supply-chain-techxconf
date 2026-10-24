@@ -14,6 +14,21 @@ allowed to *propose* events from unstructured notices.
 
 Design details and honest limits: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
+## Use cases and presentation
+
+Deck: [**SiliconFlow: Problem to Platform**](docs/SiliconFlow%20Problem%20to%20Platform.pptx) walks from the problem statement to the platform, the architecture and the traceability layer. The written version of the problem is in [`docs/PROBLEM_STATEMENT.md`](docs/PROBLEM_STATEMENT.md).
+
+| Use case | Problem it addresses | What SiliconFlow does |
+|---|---|---|
+| Packaging or HBM slot cut | Allocation, not demand, decides who ships | Quantifies orders at risk, names the binding constraint, ranks verified recovery options |
+| Substrate lot on hold | Tier 2-3 problems reach you late | Turns a supplier notice into a sourced event, re-plans, and records the supplier's answer as a new fact |
+| Export-control change | Rules change quarterly | Gates non-compliant orders out of supply and keeps the evidence |
+| Approving a recovery plan | Decisions made on spreadsheets and calls | Four-eyes approvals per role, bound to the exact plan hash |
+| Wrong data found later | Nobody can say who changed what | Per-record history with source, actor, approvers, and `supersedes` corrections |
+| Proving history was not rewritten | The operator can rebuild its own log | Merkle roots anchored to a separate ledger; edits and insider rewrites fail verification |
+| New fabs (CHIPS Act) | Supply chains built from scratch | Onboard by CSV or API on day one |
+| Hardware iteration speed | Design-to-part loops take weeks | Roadmap only: reuses the same event and approval model |
+
 ## Run it
 
 ```bash
