@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SiliconFlow - Know what will ship. Fix what won't.</title>
+<meta name="description" content="SiliconFlow is a constraint-aware control plane for semiconductor supply allocation and recovery: find the binding constraint, compare verified recovery options, and carry the approved one out with a full audit trail.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@800&family=Public+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --u: min(100vh / 800, 100vw / 716);          /* 1280x800 design frame; 800 design px = one viewport height */
+    --cream: #F7F5EF;
+    --white: #F9F9F9;
+    --body: rgba(249, 249, 249, .88);
+    --track: #0a0b0c;
+    --cloud: #e2dedd;
+    --ink: #141516;
+    --display: "Exo 2", "Arial Black", Impact, system-ui, sans-serif;
+    --ui: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  @media (max-width: 609px), (max-aspect-ratio: 1/1) { :root { --u: min(100vw / 390, 1.6px); } }
+
+  * { box-sizing: border-box; }
+  html { background: var(--cloud); }
+  body { margin: 0; background: var(--cloud); color: var(--ink); font-family: var(--ui); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+  /* ---------- track + sticky scene ---------- */
+  .track { position: relative; background: var(--track); overflow-x: clip; min-height: 300vh; }
+  .scene { position: sticky; top: 0; height: 100vh; height: 100lvh; overflow: hidden; background: var(--track); }
+  .scene video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .scene::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0,0,0,.12), rgba(0,0,0,.02) 22%, rgba(0,0,0,.02) 78%, rgba(0,0,0,.10)); }
+
+  /* ---------- scrolling content ---------- */
+  .content { position: absolute; top: 0; left: 0; right: 0; color: var(--white); z-index: 2; pointer-events: none; }
+  .content a, .content * { pointer-events: auto; }
+  .content, .content * { text-shadow: 0 calc(3 * var(--u)) calc(14 * var(--u)) rgba(0,0,0,.45); }
+
+  .intro { position: absolute; top: calc(940vh / 8); left: 50%; transform: translateX(-50%); width: calc(1280 * var(--u)); text-align: center; }
+  .eyebrow { margin: 0 0 calc(18 * var(--u)); font: 700 calc(7.4 * var(--u)) / 1.2 var(--ui); letter-spacing: .304em; color: var(--cream); text-transform: uppercase; }
+  .headline { margin: 0; font: 800 calc(56 * var(--u)) / calc(62 * var(--u)) var(--display); text-transform: uppercase; color: var(--cream);
+    text-shadow: 0 calc(12 * var(--u)) calc(32 * var(--u)) rgba(0,0,0,.5); }
+  .headline span { display: block; white-space: nowrap; }
+
+  .feat { position: absolute; width: calc(300 * var(--u)); }
+  .feat .icon { display: block; width: calc(34 * var(--u)); height: calc(34 * var(--u)); margin-bottom: calc(30 * var(--u)); color: var(--white); }
+  .feat .icon svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .feat h3 { margin: 0 0 calc(14 * var(--u)); font: 700 calc(19.6 * var(--u)) / calc(20 * var(--u)) var(--ui); text-transform: uppercase; color: var(--white); letter-spacing: .01em; }
+  .feat p { margin: 0; font: 400 calc(12.3 * var(--u)) / calc(15.4 * var(--u)) var(--ui); color: var(--body); }
+  .feat h3 span, .feat p span { display: block; white-space: nowrap; }
+  .feat.l { text-align: right; }
+  .feat.l .icon { margin-left: auto; }
+  .feat.r { text-align: left; }
+  .feat.c { text-align: center; left: 50%; transform: translateX(-50%); }
+  .feat.c .icon { margin-left: auto; margin-right: auto; }
+
+  .r1.l { top: calc(1500vh / 8); left: calc(50% - 78 * var(--u) - 300 * var(--u)); }
+  .r1.r { top: calc(1500vh / 8); left: calc(50% + 78 * var(--u)); }
+  .r2.l { top: calc(1759vh / 8); left: calc(50% - 88 * var(--u) - 300 * var(--u)); }
+  .r2.r { top: calc(1759vh / 8); left: calc(50% + 88 * var(--u)); }
+  .r3.c { top: calc(2063vh / 8); }
+
+  /* ---------- portrait ---------- */
+  @media (max-width: 609px), (max-aspect-ratio: 1/1) {
+    .content { padding: 112vh 22px 0; display: flex; flex-direction: column; align-items: center; }
+    .intro, .feat { position: static; transform: none; width: auto; max-width: 100%; left: auto; top: auto; text-align: center; }
+    .intro { margin-bottom: 24vh; }
+    .headline { font-size: clamp(34px, calc(46 * var(--u)), 72px); line-height: 1.1; }
+    .headline span { white-space: normal; }
+    .eyebrow { font-size: 11px; }
+    .feat + .feat { margin-top: 16vh; }
+    .feat.l, .feat.r, .feat.c { text-align: center; left: auto; transform: none; }
+    .feat .icon, .feat.l .icon { width: 40px; height: 40px; margin: 0 auto 22px; }
+    .feat h3 { font-size: 20px; line-height: 1.15; margin-bottom: 12px; }
+    .feat p { font-size: 14px; line-height: 1.5; }
+    .feat h3 span, .feat p span { display: inline; white-space: normal; }
+    .feat h3 span::after, .feat p span::after { content: " "; }
+    .content, .content * { text-shadow: 0 2px 12px rgba(0,0,0,.5); }
+    .headline { text-shadow: 0 6px 20px rgba(0,0,0,.5); }
+  }
+
+  /* ---------- text section ---------- */
+  .trust { position: relative; z-index: 3; margin-top: -34vh; color: var(--ink); background: var(--cloud); }
+  .trust::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 34vh; transform: translateY(-100%); pointer-events: none;
+    background: linear-gradient(to bottom, rgba(226,222,221,0), var(--cloud)); }
+  .trust-in { max-width: 1120px; margin: 0 auto; padding: 0 64px 140px; }
+  .trust-in > .block + .block { margin-top: 120px; }
+  .thead { display: grid; grid-template-columns: 1fr 300px; gap: 40px; align-items: end; padding-bottom: 36px; border-bottom: 1px solid rgba(20,21,22,.16); }
+  .thead h2 { margin: 0; font: 800 clamp(34px, 4.4vw, 60px) / 1 var(--display); text-transform: uppercase; }
+  .thead h2 span { display: block; }
+  .thead h2 span:last-child { color: #8f8b8a; }
+  .thead p { margin: 0; font-size: 13px; line-height: 1.55; color: rgba(20,21,22,.7); }
+  .row { display: grid; grid-template-columns: 260px 1fr; gap: 40px; padding: 44px 0; border-bottom: 1px solid rgba(20,21,22,.16); }
+  .row .who b { display: block; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+  .row .who i { display: block; margin-top: 6px; font-style: normal; font-size: 12px; color: rgba(20,21,22,.6); }
+  .row q, .row .what { display: block; max-width: 680px; margin: 0; quotes: none; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.42; font-weight: 400; }
+  .row .what b { font-weight: 700; }
+  .caption { margin: 22px 0 0; font-size: 12px; color: rgba(20,21,22,.6); }
+  .foot { margin-top: 90px; display: flex; flex-wrap: wrap; gap: 12px 32px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .foot a { color: var(--ink); text-decoration: none; border-bottom: 1px solid rgba(20,21,22,.4); padding-bottom: 2px; }
+  .foot a:hover { border-color: var(--ink); }
+  @media (max-width: 760px) {
+    .trust-in { padding: 0 22px 100px; }
+    .thead { grid-template-columns: 1fr; gap: 18px; }
+    .row { grid-template-columns: 1fr; gap: 14px; padding: 32px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<main class="track" id="track">
+  <div class="scene">
+    <video id="clip" muted playsinline preload="auto" disablepictureinpicture
+           poster="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/5e018553-cb8a-420a-819f-fcdfa08e5df0.jpg"></video>
+  </div>
+
+  <div class="content" id="content">
+    <header class="intro">
+      <p class="eyebrow">Why SiliconFlow</p>
+      <h1 class="headline"><span>Know what</span><span>will ship.</span><span>Fix what</span><span>won't.</span></h1>
+    </header>
+
+    <article class="feat r1 l">
+      <span class="icon" aria-hidden="true"><svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="15.5" stroke="currentColor" stroke-width="1.6" stroke-dasharray="1.2 3.6" stroke-linecap="round"/><circle cx="17" cy="17" r="8" fill="currentColor"/></svg></span>
+      <h3><span>One trusted</span><span>snapshot</span></h3>
+      <p><span>Orders, BOMs, supplier commitments,</span><span>capacity and inventory reconciled with</span><span>source, time and confidence on every fact.</span></p>
+    </article>
+    <article class="feat r1 r">
+      <span class="icon" aria-hidden="true"><svg viewBox="0 0 34 34" fill="currentColor"><rect x="1" y="21" width="9" height="12" rx="1"/><rect x="12.5" y="12" width="9" height="21" rx="1"/><rect x="24" y="3" width="9" height="30" rx="1"/></svg></span>
+      <h3><span>Order-level</span><span>visibility</span></h3>
+      <p><span>See exactly which constraint binds each</span><span>order, from HBM and substrates to</span><span>packaging and test, before dates slip.</span></p>
+    </article>
+
+    <article class="feat r2 l">
+      <span class="icon" aria-hidden="true"><svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="15.5" stroke="currentColor" stroke-width="1.6" stroke-dasharray="1.2 3.6" stroke-linecap="round"/><circle cx="17" cy="17" r="9.5" fill="currentColor"/><path d="M12.4 17.2l3.3 3.3 6-6.6" stroke="#0a0b0c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <h3><span>Compliance as</span><span>a hard gate</span></h3>
+      <p><span>Export rules are a constraint, not paperwork.</span><span>Held orders are excluded and evidence is</span><span>captured for qualified human review.</span></p>
+    </article>
+    <article class="feat r2 r">
+      <span class="icon" aria-hidden="true"><svg viewBox="0 0 34 34" fill="none"><path d="M23.5 9.5c-1.2-2.2-3.7-3.4-6.7-3.4-3.9 0-6.4 1.9-6.4 4.7 0 6.6 13.2 3 13.2 9.6 0 3-2.7 5.1-6.8 5.1-3.3 0-6-1.4-7.2-3.9M17 2v30" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></svg></span>
+      <h3><span>Recovery with</span><span>real costs</span></h3>
+      <p><span>Verified options compared on spend, on-time</span><span>units and worst case, so the trade-off</span><span>is visible before anyone commits.</span></p>
+    </article>
+
+    <article class="feat r3 c last">
+      <span class="icon" aria-hidden="true"><svg viewBox="0 0 34 34" fill="none"><path d="M6 6l11 11L6 28M18 6l11 11-11 11" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <h3><span>Approved, then</span><span>executed</span></h3>
+      <p><span>Four-eyes approvals, idempotent actions and</span><span>an audit trail. Supplier answers flow back</span><span>as new facts and the plan updates.</span></p>
+    </article>
+  </div>
+</main>
+
+<section class="trust" id="trust">
+  <div class="trust-in">
+    <div class="block">
+      <div class="thead">
+        <h2><span>Built for</span><span>the teams that</span><span>carry the plan</span></h2>
+        <p>Three people touch every shortage: the planner, the buyer and trade compliance. SiliconFlow gives each the same verified picture and keeps every decision with its owner.</p>
+      </div>
+      <div class="row"><div class="who"><b>Supply planner</b><i>Allocation and order commitments</i></div>
+        <p class="what" style="margin:0">Tell me which orders still ship, which constraint is binding, and what each recovery option costs, before the supplier call ends.</p></div>
+      <div class="row"><div class="who"><b>Procurement lead</b><i>Expedite and capacity requests</i></div>
+        <p class="what" style="margin:0">Draft the request with the exact quantity, date and price, and let me track the answer back into the plan.</p></div>
+      <div class="row"><div class="who"><b>Trade compliance</b><i>Export evidence and holds</i></div>
+        <p class="what" style="margin:0">Show me the rule-set version, the licence and the end-user evidence for every shipment, and keep anything uncertain out of the plan.</p></div>
+      <p class="caption">Illustrative personas drawn from discovery questions, not customer endorsements.</p>
+    </div>
+
+    <div class="block">
+      <div class="thead">
+        <h2><span>One incident,</span><span>from signal to</span><span>closed loop</span></h2>
+        <p>OSAT-A cuts reserved packaging 25% for weeks 4 to 9 and a substrate lot goes on quality hold. This is what happens next.</p>
+      </div>
+      <div class="row"><div class="who"><b>Signal</b><i>Notice or structured event</i></div>
+        <p class="what" style="margin:0">The supplier notice becomes proposals with verbatim evidence. A planner confirms; a less authoritative source can worsen the plan at once but cannot improve it without confirmation.</p></div>
+      <div class="row"><div class="who"><b>Impact</b><i>If nobody acts</i></div>
+        <p class="what" style="margin:0"><b>1,278 on-time units lost</b> across four orders, about <b>$38.8M</b> of exposure. The binding pools are packaging at OSAT-A and OSAT-B, found by relaxing each tight pool and re-solving.</p></div>
+      <div class="row"><div class="who"><b>Options</b><i>Solver-backed, independently verified</i></div>
+        <p class="what" style="margin:0">Re-allocate only (8,895 on time), balanced recovery (about <b>9,410</b> on time for roughly <b>$0.9M</b> with spot packaging and an alternate substrate), maximum fulfilment, or a plan that survives the worst case.</p></div>
+      <div class="row"><div class="who"><b>Control</b><i>Four-eyes, policy-driven</i></div>
+        <p class="what" style="margin:0">Compliance, finance, planner, procurement and sales approve; nobody approves twice. Execution re-verifies the plan against current data and refuses if it has gone stale.</p></div>
+      <div class="row"><div class="who"><b>Loop</b><i>Confirm, decline, audit</i></div>
+        <p class="what" style="margin:0">Suppliers confirm or decline. A confirmation becomes a new sourced fact; a decline triggers a re-plan. Every step lands in a hash-chained audit log.</p></div>
+      <p class="caption">Figures come from the bundled illustrative dataset (run <code>siliconflow demo</code>).</p>
+    </div>
+
+    <nav class="foot" aria-label="Project links">
+      <a href="console/">Open the console</a>
+      <a href="/docs">API docs</a>
+      <a href="https://github.com/aadhi0612/supply-chain-techxconf#readme">README</a>
+      <a href="https://github.com/aadhi0612/supply-chain-techxconf/blob/main/docs/ARCHITECTURE.md">Architecture</a>
+    </nav>
+  </div>
+</section>
+
+<script>
+(() => {
+  const SRC_1080 = "https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/e02bb27f-80d8-445f-a03e-1b609dac4261.mp4";
+  const SRC_720  = "https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/e8eb434f-d097-4b1b-b9e6-c8b46fa43040.mp4";
+  const REC = new URLSearchParams(location.search).has("rec");
+  const $ = (s) => document.querySelector(s);
+  const track = $("#track"), video = $("#clip"), last = $(".feat.last");
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const saveData = !!(navigator.connection && navigator.connection.saveData);
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  video.muted = true;
+  video.src = (innerWidth <= 900 || saveData) ? SRC_720 : SRC_1080;
+  video.load();
+
+  let end = 1, knee = 0.5, dur = 5.04, cur = 0, target = 0;
+  const trackTop = () => track.getBoundingClientRect().top + scrollY;
+
+  function measure() {
+    const vh = innerHeight, top = trackTop();
+    const lastBottom = last.getBoundingClientRect().bottom + scrollY - top;
+    end = lastBottom + 0.75 * vh;
+    knee = lastBottom / end;
+    track.style.height = (end + vh) + "px";
+  }
+  function clipProgress(p) {            // camera climbs only while text is on screen; clouds take over afterwards
+    return p < knee ? (p / knee) * 0.46 : 0.46 + ((p - knee) / (1 - knee)) * 0.54;
+  }
+  function progressFromScroll() { return clamp((scrollY - trackTop()) / end); }
+  function targetTime(p) { return clipProgress(p) * (dur - 1 / 48); }
+
+  function seek() {
+    if (!video.seeking && Math.abs(cur - video.currentTime) > 1 / 60) video.currentTime = cur;
+  }
+  function frame() {
+    target = targetTime(progressFromScroll());
+    cur = reduce ? target : cur + (target - cur) * 0.22;
+    seek();
+    requestAnimationFrame(frame);
+  }
+  video.addEventListener("seeked", seek);
+  video.addEventListener("loadedmetadata", () => { if (isFinite(video.duration)) dur = video.duration; video.pause(); measure(); });
+
+  addEventListener("resize", measure);
+  addEventListener("load", measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  measure();
+
+  if (REC) {
+    // Deterministic driver for frame-by-frame recording: 6.5 s, hold to 3%, even ease to 94%, hold.
+    const carrier = document.createElement("div");
+    carrier.style.cssText = "position:fixed;opacity:.03;pointer-events:none;width:0;height:0";
+    document.body.appendChild(carrier);
+    const anim = carrier.animate([
+      { opacity: 0.03, offset: 0 },
+      { opacity: 0.03, offset: 0.05, easing: "cubic-bezier(.45,.05,.55,.95)" },
+      { opacity: 0.94, offset: 0.92 },
+      { opacity: 0.94, offset: 1 },
+    ], { duration: 6500, fill: "both" });
+    const range = () => end + 0.9 * innerHeight;       // runs past the track so the text section scrolls in
+    const apply = () => scrollTo(0, trackTop() + parseFloat(getComputedStyle(carrier).opacity) * range());
+    (function loop() { apply(); requestAnimationFrame(loop); })();
+    window.__recTime = (v, t) => {
+      anim.pause(); anim.currentTime = t * 1000; apply();
+      cur = target = targetTime(progressFromScroll());
+      return cur;
+    };
+  } else {
+    // keep Safari/iOS from ignoring seeks until the first user gesture
+    const prime = () => { video.play().then(() => video.pause()).catch(() => {}); };
+    addEventListener("touchstart", prime, { once: true, passive: true });
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
