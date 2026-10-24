@@ -1,0 +1,9 @@
+# SiliconFlow
+
+> Constraint-aware control plane for semiconductor supply allocation and recovery: find the binding constraint, compare verified recovery options, carry the approved one out with a hash-chained audit trail. Synthetic data; no customers yet.
+
+- [Landing page](https://main.d2skuf17sh79ex.amplifyapp.com/): what it is, parameters, the reference incident
+- [Experience demo](https://main.d2skuf17sh79ex.amplifyapp.com/experience/): static, server-free walkthrough (track, trace, disrupt, ledger); replays real demo output, shipment timing and serials are invented
+- [Source and README](https://github.com/aadhi0612/supply-chain-techxconf#readme)
+- [Architecture and limits](https://github.com/aadhi0612/supply-chain-techxconf/blob/main/docs/ARCHITECTURE.md)
+- [Agent guide](https://github.com/aadhi0612/supply-chain-techxconf/blob/main/AGENTS.md): layout, how to verify, what is real vs design-only

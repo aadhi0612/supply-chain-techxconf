@@ -1,3 +1,5 @@
+**Demo UI:** https://main.d2skuf17sh79ex.amplifyapp.com
+
 # SiliconFlow — semiconductor supply allocation & recovery control plane
 
 When a supplier changes a packaging slot, a substrate lot goes on hold, or an export rule moves, this system answers, with
