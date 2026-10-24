@@ -19,7 +19,7 @@ from siliconflow.trace.resolve import VIEWERS, Resolver
 
 log = logging.getLogger()
 log.setLevel(logging.INFO)
-MODEL = os.environ.get("MODEL_ID", "us.anthropic.claude-haiku-5-5")
+MODEL = os.environ.get("MODEL_ID", "us.anthropic.claude-haiku-4-5-20251001-v1:0")
 PER_IP_MIN = int(os.environ.get("PER_IP_PER_MIN", "8"))
 DAILY_CAP = int(os.environ.get("DAILY_CAP", "1500"))
 MAX_MSG = 500
