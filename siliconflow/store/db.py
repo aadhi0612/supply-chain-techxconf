@@ -220,6 +220,21 @@ class AuditLog(Base):
     __table_args__ = (Index("ix_audit_entity", "tenant_id", "entity_type", "entity_id"),)
 
 
+class Anchor(Base):
+    """A batch of audit rows (seq_from..seq_to) whose Merkle root was published to the ledger."""
+    __tablename__ = "audit_anchors"
+    tenant_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    seq_from: Mapped[int] = mapped_column(Integer)
+    seq_to: Mapped[int] = mapped_column(Integer)
+    root: Mapped[str] = mapped_column(String(64))
+    ledger: Mapped[str] = mapped_column(String(64))
+    ledger_index: Mapped[int] = mapped_column(Integer)
+    ledger_ts: Mapped[str] = mapped_column(String(40))
+    created_by: Mapped[str] = mapped_column(String(64))
+    __table_args__ = (UniqueConstraint("tenant_id", "seq_from", name="uq_anchor_from"),)
+
+
 def make_engine(url: str = "sqlite:///siliconflow.db"):
     kw = {}
     if url.startswith("sqlite"):

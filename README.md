@@ -20,7 +20,7 @@ Design details and honest limits: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 pip install -e ".[dev,llm]"
 siliconflow demo            # ~15 s: full incident, end to end, printed step by step
 siliconflow serve --demo    # DEV ONLY: sample data + demo users; landing page at /, console at /ui/console/, API docs at /docs
-pytest                      # 86 tests (~2 min; includes solver-backed property tests)
+pytest                      # 100 tests (~2 min; includes solver-backed property tests)
 
 # service
 siliconflow init-user --tenant acme --name "Pat" --roles planner      # prints an API key (only its hash is stored)
@@ -53,6 +53,7 @@ OSAT-A cuts reserved packaging 25 % for weeks 4-9 and a substrate lot goes on qu
 | Conflicts | `GET /conflicts` · `POST /conflicts/{id}/resolve` · `POST /conflicts/resolve` |
 | Decide | `GET /incidents[/{id}]` · `POST /incidents/{id}/select` · `…/decisions` · `…/execute` · `…/replan` |
 | Act | `POST /actions/{id}/mark-sent` · `…/confirmation` · `…/revert` |
+| Trace / anchor | `GET /v1/trace/{kind}/{id}` (history of one order, commitment, resource, lot, route) · `POST /v1/audit/anchor` · `GET /v1/audit/anchors` · `GET /v1/audit/proof/{seq}` |
 | Learn / govern | `POST /outcomes` · `GET /calibration` · `GET /metrics` · `GET /audit` · `GET /audit/verify` · `GET /snapshots[/diff]` |
 
 Roles: `viewer` (read) · `planner`/`admin` (write, select, execute) · `procurement|finance|quality|sales|compliance` (approve their own role only).

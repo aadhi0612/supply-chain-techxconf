@@ -10,3 +10,6 @@ jobs:
       - run: pip install -e ".[dev,llm]"
       - run: ruff check siliconflow tests
       - run: pytest
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - run: node ui/e2e/ledger.mjs

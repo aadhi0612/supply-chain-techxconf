@@ -17,6 +17,7 @@ from ..ingest.importers import ImportError_, layer_tables
 from ..services.actions import OutboxAdapter, WebhookAdapter
 from ..services.platform import Platform, Principal, ServiceError
 from ..services.policy import ExecutionPolicy
+from ..store.ledger import LocalLedger
 
 
 class ImportBody(BaseModel):
@@ -87,6 +88,15 @@ class BulkResolveBody(BaseModel):
     note: str = ""
 
 
+class TamperBody(BaseModel):
+    seq: int = Field(ge=1)
+    rebuild: bool = False
+
+
+class LedgerSwitchBody(BaseModel):
+    available: bool
+
+
 class OutcomeBody(BaseModel):
     kind: str
     subject: str
@@ -104,7 +114,7 @@ def build_platform(settings: Settings | None = None) -> Platform:
             extractors.append(extract_mod.ClaudeExtractor())
         except Exception:  # optional dependency / credentials problem must not stop the service
             pass
-    return Platform(st.db_url, ExecutionPolicy(mode=st.mode), adapter, extractors)
+    return Platform(st.db_url, ExecutionPolicy(mode=st.mode), adapter, extractors, ledger=LocalLedger(st.ledger_path))
 
 
 def create_app(platform: Platform | None = None, demo: bool | None = None) -> FastAPI:
@@ -152,6 +162,28 @@ def create_app(platform: Platform | None = None, demo: bool | None = None) -> Fa
         def demo_user_list():
             """DEV ONLY (SILICONFLOW_DEMO=1): lets the console sign in as any role."""
             return demo_users()
+
+        @app.post("/v1/demo/tamper", include_in_schema=False)
+        def demo_tamper(body: TamperBody, p: P):
+            """DEV ONLY: edit one audit row in place (rebuild=true also recomputes later hashes, like an insider rewriting history)."""
+            from ..services import traceability
+            pf._need_write(p)
+            return traceability.demo_tamper(pf, p.tenant_id, body.seq, body.rebuild)
+
+        @app.post("/v1/demo/untamper", include_in_schema=False)
+        def demo_untamper(p: P):
+            from ..services import traceability
+            pf._need_write(p)
+            return traceability.demo_untamper(pf, p.tenant_id)
+
+        @app.post("/v1/demo/ledger", include_in_schema=False)
+        def demo_ledger(body: LedgerSwitchBody, p: P):
+            """DEV ONLY: simulate a ledger outage to show that work continues and anchoring catches up."""
+            pf._need_write(p)
+            if not hasattr(pf.ledger, "available"):
+                raise HTTPException(400, "this ledger adapter has no outage switch")
+            pf.ledger.available = body.available
+            return {"ledger_available": pf.ledger.available}
 
     @app.get("/healthz")
     def health():
@@ -295,5 +327,26 @@ def create_app(platform: Platform | None = None, demo: bool | None = None) -> Fa
     @app.get("/v1/audit/verify")
     def audit_verify(p: P):
         return pf.verify_audit(p.tenant_id)
+
+    # ---- traceability: anchoring, proofs, per-record history
+    @app.post("/v1/audit/anchor")
+    def audit_anchor(p: P):
+        return pf.anchor_audit(p)
+
+    @app.get("/v1/audit/anchors")
+    def audit_anchors(p: P):
+        return pf.list_anchors(p.tenant_id)
+
+    @app.get("/v1/audit/proof/{seq}")
+    def audit_proof(seq: int, p: P):
+        return pf.audit_proof(p.tenant_id, seq)
+
+    @app.get("/v1/trace")
+    def trace_entities(p: P):
+        return pf.trace_entities(p.tenant_id)
+
+    @app.get("/v1/trace/{kind}/{entity_id}")
+    def trace(kind: str, entity_id: str, p: P):
+        return pf.trace(p.tenant_id, kind, entity_id)
 
     return app

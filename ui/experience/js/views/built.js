@@ -10,7 +10,7 @@ const ROWS = [
   ["Disrupt · impact", "Plan before vs after, binding pools", "engine/impact.py, engine/explain.py", "GET /v1/incidents/{id}", "Implemented; numbers here are real demo output"],
   ["Disrupt · options", "Verified best/base/worst recovery options", "engine/recovery.py, optimizer.py, verify.py", "GET /v1/incidents/{id}", "Implemented"],
   ["Disrupt · approvals, actions", "Four-eyes policy, idempotent actions", "services/policy.py, actions.py, platform.py", "POST /v1/incidents/{id}/…", "Implemented"],
-  ["Ledger", "Hash-chained audit log", "siliconflow/store/audit.py", "GET /v1/audit/verify", "Chain implemented; Merkle anchoring to a shared ledger is design only"],
+  ["Ledger", "Hash-chained audit log", "siliconflow/store/audit.py", "GET /v1/audit/verify", "Chain, Merkle anchoring to a separate local ledger and proofs are implemented; a real shared ledger is an adapter still to be written"],
 ];
 export default function built(root) {
   root.append(h("div", { class: "page-head" }, h("div", null, h("h1", null, "How it's built"), h("div", { class: "sub" },
@@ -35,7 +35,7 @@ export default function built(root) {
       h("div", { class: "card" }, h("h2", null, "Honest limits of this page"),
         h("ul", { class: "small", style: "margin:0;padding-left:18px" },
           h("li", null, "Data is synthetic. Order, lot, lever ids and the headline numbers are real engine output on the sample dataset; shipment timing and serial numbers are invented."),
-          h("li", null, "The ledger is a real SHA-256 chain, but it lives in your tab and resets on reload. It is not a blockchain and nothing is anchored anywhere."),
+          h("li", null, "The ledger is a real SHA-256 chain plus a separate list of Merkle roots, both in your tab; they reset on reload. It is a simulation, not a blockchain. The console runs the same logic against the API and a separate ledger file."),
           h("li", null, "Serial-level traceability is a design (see the docs), not yet a feature of the engine."),
           h("li", null, "Only the two recommended options can be executed here; the console runs any of them against a live API."))),
       h("div", { class: "card" }, h("h2", null, "Read the code"), h("div", { class: "stack" }, ["README.md", "docs/ARCHITECTURE.md", "docs/BLOCKCHAIN_LAYER.md", "siliconflow/engine/recovery.py"].map((p) => h("div", null, link(p)))))));

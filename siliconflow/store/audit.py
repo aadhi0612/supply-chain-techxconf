@@ -21,6 +21,12 @@ def _hash(prev: str, seq: int, ts: str, actor: str, action: str, et: str, eid: s
     return hashlib.sha256(_canon([prev, seq, ts, actor, action, et, eid, data]).encode()).hexdigest()
 
 
+def row_digest(r: AuditLog) -> str:
+    """Recompute a row's hash from its own content and prev_hash (never trusts the stored `hash`)."""
+    ts = r.ts if r.ts.tzinfo else r.ts.replace(tzinfo=timezone.utc)
+    return _hash(r.prev_hash, r.seq, ts.isoformat(), r.actor, r.action, r.entity_type, r.entity_id, r.data)
+
+
 def append(s: Session, tenant: str, actor: str, action: str, entity_type: str, entity_id: str, data: dict | None = None) -> AuditLog:
     """Must be called inside the caller's transaction so the audit row commits atomically with the change."""
     head = s.execute(select(AuditHead).where(AuditHead.tenant_id == tenant).with_for_update()).scalar_one_or_none()
