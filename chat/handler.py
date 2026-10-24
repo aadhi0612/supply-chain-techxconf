@@ -56,8 +56,9 @@ def allow(table, ip: str, now: float | None = None) -> str | None:
         try:
             table.update_item(
                 Key={"pk": pk},
-                UpdateExpression="ADD n :one SET ttl = :t",
+                UpdateExpression="ADD n :one SET #ttl = :t",
                 ConditionExpression="attribute_not_exists(n) OR n < :lim",
+                ExpressionAttributeNames={"#ttl": "ttl"},  # ttl is a DynamoDB reserved word
                 ExpressionAttributeValues={":one": 1, ":lim": limit, ":t": int(now) + ttl},
             )
         except Exception as e:  # ConditionalCheckFailedException

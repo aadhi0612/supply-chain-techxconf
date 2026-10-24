@@ -6,3 +6,9 @@ __pycache__/
 outbox/
 .pytest_cache/
 .ruff_cache/
+
+# provenance chat build + terraform state
+chat/build/
+chat/infra/.terraform/
+chat/infra/*.tfstate*
+chat/infra/.terraform.lock.hcl.bak

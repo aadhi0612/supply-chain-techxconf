@@ -14,7 +14,9 @@ class Table:
     def __init__(self):
         self.n = {}
 
-    def update_item(self, Key, ConditionExpression, ExpressionAttributeValues, **_):
+    def update_item(self, Key, ConditionExpression, ExpressionAttributeValues, UpdateExpression="", ExpressionAttributeNames=None, **_):
+        # DynamoDB rejects reserved words used bare in expressions (this once shipped: "ttl")
+        assert "ttl" not in UpdateExpression.replace("#ttl", "").lower(), "bare reserved word in UpdateExpression"
         c = self.n.get(Key["pk"], 0)
         if c >= ExpressionAttributeValues[":lim"]:
             raise RuntimeError("ConditionalCheckFailedException")
