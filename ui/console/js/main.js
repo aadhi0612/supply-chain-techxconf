@@ -42,7 +42,7 @@ function renderLogin(msg) {
     msg ? h("div", { class: "note warn" }, msg) : null,
     h("label", null, "API key"), input,
     h("div", { class: "row", style: "margin-top:14px" }, h("button", { class: "btn primary", onclick: () => go(input.value) }, "Sign in"),
-      h("a", { href: "../" }, "← About SiliconFlow")),
+      h("a", { href: "../" }, "← About SiliconFlow"), h("a", { href: "../experience/" }, "No API here? Try the live experience")),
     state.demoUsers.length ? h("div", { style: "margin-top:22px" },
       h("div", { class: "note warn" }, "Demo mode is on: these fixed, public keys exist for local development only."),
       h("div", { class: "demo-users" }, state.demoUsers.map((u) => h("button", { class: "btn", onclick: () => go(u.api_key) }, `${u.name} · ${u.roles.join(", ")}`)))) : null)));
@@ -53,7 +53,7 @@ function renderShell() {
   const side = h("aside", { class: "side" }, h("div", { class: "brand" }, h("i"), "SiliconFlow"),
     h("nav", { class: "nav", id: "nav" }, ROUTES.map(([id, label, icon]) => h("a", { href: `#/${id}`, "data-id": id }, h("span", null, icon), label, h("span", { class: "count", id: `c-${id}`, hidden: true })))),
     h("div", { class: "spacer" }),
-    h("div", { class: "foot" }, h("a", { href: "../" }, "About"), " · ", h("a", { href: "/docs", target: "_blank", rel: "noopener" }, "API docs")));
+    h("div", { class: "foot" }, h("a", { href: "../experience/" }, "Live experience"), " · ", h("a", { href: "../" }, "About"), " · ", h("a", { href: "/docs", target: "_blank", rel: "noopener" }, "API docs")));
   const roles = state.me.roles.map((r) => h("span", { class: "badge info" }, r));
   const who = state.demoUsers.length
     ? h("select", { "aria-label": "Switch demo user", onchange: (e) => { session.key = e.target.value; boot(); } },

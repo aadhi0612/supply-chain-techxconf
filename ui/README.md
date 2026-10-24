@@ -5,6 +5,7 @@ Two parts, both plain HTML/CSS/vanilla JS with **no framework and no build step*
 | Path | What it is |
 |---|---|
 | `index.html` | Landing page: a sticky aerial freight clip is scrubbed (never played) as you scroll while the product story rises over it, then clouds hand over to a text section (who it is for, one incident end to end). Open it directly or at `/ui/`. Add `?rec=1` for a deterministic recording driver (`window.__recTime(video, t)`). |
+| `experience/` | **Server-free walkthrough** (Track, Trace, Disrupt, Ledger, How it's built): replays the real demo incident in the browser with a live SHA-256 hash chain. Deployable to any static host (see `amplify.yml`). |
 | `console/` | The operational console on top of the `/v1` API. ES modules, so serve it over HTTP (`siliconflow serve` serves it at `/ui/console/`). |
 | `e2e/run.js` | Browser end-to-end test of the console (Playwright). |
 
