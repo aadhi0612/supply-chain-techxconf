@@ -1,6 +1,6 @@
 # Handoff: Instagram Reels -> GTA 6 YouTube Shorts
 
-**Goal:** Owner's friend records/edits GTA 6 clips and posts them to the owner's Instagram pages (9 pages, see `sources.txt`). Owner wants all videos downloaded in bulk, duplicates removed (keep one copy), and posted to their YouTube channel as Shorts with hook/search-style titles and descriptions.
+**Goal:** Owner's friend records/edits GTA 6 clips and posts them to the owner's Instagram pages (10 pages, see `sources.txt`). Owner wants all videos downloaded in bulk, duplicates removed (keep one copy), and posted to their YouTube channel as Shorts with hook/search-style titles and descriptions.
 
 **Status:** Script written (`pipeline.py`), untested. Not yet run: this cloud session cannot log into Instagram or open a browser for YouTube OAuth. Google OAuth JSON creds live in the owner's other session.
 
